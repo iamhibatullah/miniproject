@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class PersonelServiceImpl implements PersonelService{
 
-    @Autowired
+    @Autowired //field injection
     private PersonelRepository personelRepository;
 
     //find all existing personel in the database
@@ -24,6 +24,9 @@ public class PersonelServiceImpl implements PersonelService{
         List<PersonelGridDTO> grid = new LinkedList<>();
         personelRepository.findAllPersonelGrid(name, subject).stream()
                 .forEach(each -> grid.add(each.convertToDto()));
+        if (grid.isEmpty()){
+            throw new GlobalException("No Personel match with the parameters given!");
+        }
 
         return grid;
     }
@@ -61,6 +64,9 @@ public class PersonelServiceImpl implements PersonelService{
     //delete a personel from the database with parameters personel id
     @Override
     public void deleteById(int personelId) {
+        //checks if the given personel id exists in the database
+        Personel personel = findPersonelById(personelId);
+
         personelRepository.deleteById(personelId);
     }
 

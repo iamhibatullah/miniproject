@@ -61,7 +61,7 @@ public class TicketController {
         return new ResponseEntity<>(entity, HttpStatus.ACCEPTED);
     }
 
-    @PostMapping("/assign/{ticketId}/{personelId}")
+    @PutMapping("/assign/{ticketId}/{personelId}")
     public ResponseEntity<Object> assignPersonel(@PathVariable int ticketId,
                                                  @PathVariable int personelId){
         Ticket entity = ticketService.assignPersonel(ticketId, personelId);
@@ -69,7 +69,7 @@ public class TicketController {
         return new ResponseEntity<>(entity, HttpStatus.ACCEPTED);
     }
 
-    @PostMapping("/complete/{ticketId}")
+    @PutMapping("/complete/{ticketId}")
     public ResponseEntity<Object> completeTicket(@PathVariable int ticketId){
         Ticket entity = ticketService.completeTicket(ticketId);
 

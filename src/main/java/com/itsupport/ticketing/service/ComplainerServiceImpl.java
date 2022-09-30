@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class ComplainerServiceImpl implements ComplainerService{
 
-    @Autowired
+    @Autowired //field injection
     private ComplainerRepository complainerRepository;
 
     //find all existing complainer in the database
@@ -25,6 +25,9 @@ public class ComplainerServiceImpl implements ComplainerService{
         List<ComplainerGridDTO> grid = new LinkedList<>();
         complainerRepository.findAllComplainerGrid(name).stream()
                 .forEach(each -> grid.add(each.convertToDto()));
+        if(grid.isEmpty()){
+            throw new GlobalException("No Complainer match with the parameters given!");
+        }
 
         return grid;
     }
@@ -70,6 +73,10 @@ public class ComplainerServiceImpl implements ComplainerService{
     //delete a complainer from the database with parameters complainer id
     @Override
     public void deleteById(int complainerId) {
+        //checks
+
+        Complainer complainer = findComplainerById(complainerId);
+
         complainerRepository.deleteById(complainerId);
     }
 

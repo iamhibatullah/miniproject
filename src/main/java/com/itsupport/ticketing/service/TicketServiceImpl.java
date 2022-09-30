@@ -8,6 +8,7 @@ import com.itsupport.ticketing.entity.Personel;
 import com.itsupport.ticketing.entity.Ticket;
 import com.itsupport.ticketing.exception.GlobalException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -17,6 +18,7 @@ import java.util.List;
 @Service
 public class TicketServiceImpl implements TicketService{
 
+    //field injection
     @Autowired
     private TicketRepository ticketRepository;
     @Autowired
@@ -31,6 +33,9 @@ public class TicketServiceImpl implements TicketService{
 
         List<TicketGridDTO> grid = new LinkedList<>();
         List<Ticket> ticketList = ticketRepository.findAllTicketGrid(subject, status);
+        if(ticketList.isEmpty()){
+            throw new GlobalException("No ticket match with the parameters given!");
+        }
 
         for (Ticket each : ticketList) {
             if(each.getStatus().equals("Pending")){
@@ -41,6 +46,7 @@ public class TicketServiceImpl implements TicketService{
                 grid.add(each.convertCompletedTicketToDto());
             }
         }
+
 
         return grid;
     }

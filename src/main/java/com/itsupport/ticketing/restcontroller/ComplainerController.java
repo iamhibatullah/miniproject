@@ -51,6 +51,7 @@ public class ComplainerController {
 
     @DeleteMapping("/{complainerId}")
     public String deleteComplainer(@PathVariable int complainerId){
+        //checks if the given complainer id exists in the database
         complainerService.deleteById(complainerId);
 
         return "Delete Success!";
