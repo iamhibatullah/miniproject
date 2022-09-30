@@ -4,7 +4,7 @@ import com.itsupport.ticketing.dao.PersonelRepository;
 import com.itsupport.ticketing.dto.personel.PersonelGridDTO;
 import com.itsupport.ticketing.dto.personel.UpsertPersonelDTO;
 import com.itsupport.ticketing.entity.Personel;
-import com.itsupport.ticketing.exception.IdNotFoundException;
+import com.itsupport.ticketing.exception.GlobalException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +33,7 @@ public class PersonelServiceImpl implements PersonelService{
     public Personel findPersonelById(int personelId) {
 
         return personelRepository.findById(personelId)
-                .orElseThrow(() -> new IdNotFoundException("Personel with Id "+personelId+" Not Found"));
+                .orElseThrow(() -> new GlobalException("Personel with Id "+personelId+" Not Found"));
     }
 
     //saving new personel to database

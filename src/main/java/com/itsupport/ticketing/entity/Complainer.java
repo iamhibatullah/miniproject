@@ -25,7 +25,7 @@ public class Complainer {
     @Column(name = "address")
     private String address;
     @OneToMany(mappedBy = "complainer")
-    @JsonIgnore
+    @JsonIgnore //used to avoid loop errors
     private List<Ticket> tickets = new LinkedList<>();
 
     public Complainer() {

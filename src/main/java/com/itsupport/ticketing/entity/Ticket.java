@@ -57,6 +57,8 @@ public class Ticket {
         this.resolvedAt = resolvedAt;
     }
 
+    //pending ticket does not have personel (personelName == null)
+    //exclude null personel from the builder
     public TicketGridDTO convertPendingTicketToDto(){
         return TicketGridDTO.builder()
                 .id(this.id)
@@ -67,6 +69,9 @@ public class Ticket {
                 .status(this.status)
                 .build();
     }
+
+    //resolving ticket have personel, but does not have resolved date (resolvedAt == null)
+    //exclude resolvedAt from the builder
     public TicketGridDTO convertResolvingTicketToDto(){
         return TicketGridDTO.builder()
                 .id(this.id)
@@ -79,6 +84,8 @@ public class Ticket {
                 .build();
     }
 
+    //completed ticket does not have null value
+    //include all field to the builder
     public TicketGridDTO convertCompletedTicketToDto(){
         return TicketGridDTO.builder()
                 .id(this.id)

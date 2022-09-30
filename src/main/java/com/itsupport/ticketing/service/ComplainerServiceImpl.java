@@ -4,7 +4,7 @@ import com.itsupport.ticketing.dao.ComplainerRepository;
 import com.itsupport.ticketing.dto.complainer.ComplainerGridDTO;
 import com.itsupport.ticketing.dto.complainer.UpsertComplainerDTO;
 import com.itsupport.ticketing.entity.Complainer;
-import com.itsupport.ticketing.exception.IdNotFoundException;
+import com.itsupport.ticketing.exception.GlobalException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +34,7 @@ public class ComplainerServiceImpl implements ComplainerService{
     public Complainer findComplainerById(int complainerId) {
 
         return complainerRepository.findById(complainerId)
-                .orElseThrow(() -> new IdNotFoundException("Complainer with Id "+complainerId+" Not Found"));
+                .orElseThrow(() -> new GlobalException("Complainer with Id "+complainerId+" Not Found"));
     }
 
     //saving new personel to database

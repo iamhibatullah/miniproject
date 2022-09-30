@@ -27,7 +27,7 @@ public class Personel {
     @Column(name = "Subject")
     private String subject;
     @OneToMany(mappedBy = "personel")
-    @JsonIgnore
+    @JsonIgnore //used to avoid loop errors
     private List<Ticket> tickets = new LinkedList<>();
 
     public Personel() {

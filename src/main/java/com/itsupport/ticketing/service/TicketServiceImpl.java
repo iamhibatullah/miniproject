@@ -6,10 +6,7 @@ import com.itsupport.ticketing.dto.ticket.TicketGridDTO;
 import com.itsupport.ticketing.entity.Complainer;
 import com.itsupport.ticketing.entity.Personel;
 import com.itsupport.ticketing.entity.Ticket;
-import com.itsupport.ticketing.exception.ComplainerHaveNoTicketException;
-import com.itsupport.ticketing.exception.IdNotFoundException;
-import com.itsupport.ticketing.exception.SubjectDoesNotMatchException;
-import com.itsupport.ticketing.exception.TicketDoesNotHavePersonelException;
+import com.itsupport.ticketing.exception.GlobalException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +52,7 @@ public class TicketServiceImpl implements TicketService{
 
         Personel personel = personelService.findPersonelById(personelId);
         if(personel.getTickets().isEmpty()){
-            throw new TicketDoesNotHavePersonelException("This Personel is currently not resolving any Ticket");
+            throw new GlobalException("This Personel is currently not resolving any Ticket");
         }
 
         List<TicketGridDTO> grid = new LinkedList<>();
@@ -80,7 +77,7 @@ public class TicketServiceImpl implements TicketService{
 
         Complainer complainer = complainerService.findComplainerById(complainerId);
         if(complainer.getTickets().isEmpty()){
-            throw new ComplainerHaveNoTicketException("This Complainer has not made any Ticket");
+            throw new GlobalException("This Complainer has not made any Ticket");
         }
 
         List<TicketGridDTO> grid = new LinkedList<>();
@@ -103,7 +100,7 @@ public class TicketServiceImpl implements TicketService{
     @Override
     public Ticket findTicketById(int ticketId) {
         return ticketRepository.findById(ticketId)
-                .orElseThrow(() -> new IdNotFoundException("Ticket with Id "+ticketId+" Not Found"));
+                .orElseThrow(() -> new GlobalException("Ticket with Id "+ticketId+" Not Found"));
     }
 
     //create new ticket, every new ticket has the status "Pending" and have no personel
@@ -147,7 +144,7 @@ public class TicketServiceImpl implements TicketService{
             ticketPersonel.addTicket(entity);
             personelService.save(ticketPersonel);
         } else {
-            throw new SubjectDoesNotMatchException("Personel subject does not match with the ticket subject!");
+            throw new GlobalException("Personel subject does not match with the ticket subject!");
         }
 
         return entity;
@@ -161,7 +158,7 @@ public class TicketServiceImpl implements TicketService{
 
         //if there is no personel on the ticket, the ticket cannot be completed
         if(entity.getPersonel() == null){
-            throw new TicketDoesNotHavePersonelException("This ticket cannot be completed without a Personel resolving it!");
+            throw new GlobalException("This ticket cannot be completed without a Personel resolving it!");
         }else {
             entity.setStatus("Completed");
             entity.setResolvedAt(LocalDate.now());
